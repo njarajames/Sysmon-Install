@@ -1,22 +1,26 @@
-"# Sysmon-Install" 
+# Sysmon-Install
 
 This repository contains a PowerShell script to install Sysmon (System Monitor) on a Windows machine. Sysmon is a Windows system service and device driver that, once installed on a system, remains resident across system reboots to monitor and log system activity to the Windows event log.
 
-Prerequisites
-Ensure you have administrative privileges on the target machine.
-Make sure the Sysmon executable is accessible via the network share path specified in the script.
-Script Overview
-The script performs the following tasks:
+# What is Sysmon 
+Sysmon (System Monitor) is a Windows system service and device driver that monitors and logs system activity to the Windows event log. It is developed by Microsoft and is commonly used for security monitoring and incident response.
 
-Defines the network path to the Sysmon executable.
-Checks if Sysmon is already installed by querying the Windows Registry.
-Installs Sysmon if it is not already installed.
-Provides output messages to indicate the status of the installation process.
-Usage
-Clone this repository to your local machine.
-Open PowerShell with administrative privileges.
-Navigate to the directory containing the script.
-Run the script using the following command:
+# Prerequisites
+-Ensure you have administrative privileges on the target machine.
+-Make sure the Sysmon executable is accessible via the network share path specified in the script.
+
+### Script Overview
+The script performs the following tasks:
+- Defines the network path to the Sysmon executable.
+- Checks if Sysmon is already installed by querying the Windows Registry.
+- Installs Sysmon if it is not already installed.
+- Provides output messages to indicate the status of the installation process.
+
+### Usage
+- Clone this repository to your local machine.
+- Open PowerShell with administrative privileges.
+- Navigate to the directory containing the script.
+- Run the script using the following command:
 
     .\install-sysmon.ps1
 
