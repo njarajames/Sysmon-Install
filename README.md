@@ -18,62 +18,59 @@ Open PowerShell with administrative privileges.
 Navigate to the directory containing the script.
 Run the script using the following command:
 
-.\install-sysmon.ps1
-Script Details
-Define the Network Path
+    .\install-sysmon.ps1
+
+# Script Details
+### Define the Network Path
 The script defines the network path to the Sysmon executable:
 
+    $SysmonSharePath = "\\tech.local\SYSVOL\tech.local\scripts\Sysmon64.exe"
 
-$SysmonSharePath = "\\tech.local\SYSVOL\tech.local\scripts\Sysmon64.exe"
-Check Sysmon Installation
+### Check Sysmon Installation
 The Check-SysmonInstallation function checks if Sysmon is already installed by querying the Windows Registry:
 
-
-function Check-SysmonInstallation {
-    param (
-        [string]$RegistryKeyPath
-    )
-
-    $SysmonImagePath = (Get-ItemProperty -Path $RegistryKeyPath -Name ImagePath -ErrorAction SilentlyContinue).ImagePath
-
-    if ($SysmonImagePath) {
-        Write-Output "Sysmon64 est déjà installé sur cette machine"
-        return $true
-    } else {
-        return $false
+    function Check-SysmonInstallation {
+        param (
+            [string]$RegistryKeyPath
+        )
+    
+        $SysmonImagePath = (Get-ItemProperty -Path $RegistryKeyPath -Name ImagePath -ErrorAction SilentlyContinue).ImagePath
+    
+        if ($SysmonImagePath) {
+            Write-Output "Sysmon64 est déjà installé sur cette machine"
+            return $true
+        } else {
+            return $false
+        }
     }
-}
-Install Sysmon
+
+### Install Sysmon
 The Install-Sysmon function installs Sysmon using the specified executable path:
 
+    function Install-Sysmon {
+        param (
+            [string]$SysmonExecutablePath
+        )
+    
+        Write-Output "Sysmon64 va être installé sur cette machine"
+        & $SysmonExecutablePath -i -accepteula
+    }
 
-function Install-Sysmon {
-    param (
-        [string]$SysmonExecutablePath
-    )
-
-    Write-Output "Sysmon64 va être installé sur cette machine"
-    & $SysmonExecutablePath -i -accepteula
-}
-Verify Executable Path and Install Sysmon
+### Verify Executable Path and Install Sysmon
 The script verifies the path to the Sysmon executable and installs Sysmon if it is not already installed:
 
 
-if (Test-Path -Path $SysmonSharePath -PathType Leaf) {
-    $SysmonRegistryKeyPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Sysmon64"
-
-    if (-not (Check-SysmonInstallation -RegistryKeyPath $SysmonRegistryKeyPath)) {
-        Install-Sysmon -SysmonExecutablePath $SysmonSharePath
+    if (Test-Path -Path $SysmonSharePath -PathType Leaf) {
+        $SysmonRegistryKeyPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Sysmon64"
+    
+        if (-not (Check-SysmonInstallation -RegistryKeyPath $SysmonRegistryKeyPath)) {
+            Install-Sysmon -SysmonExecutablePath $SysmonSharePath
+        }
+    } else {
+        Write-Output "Le chemin vers l'exécutable de Sysmon est incorrect ou inaccessible."
     }
-} else {
-    Write-Output "Le chemin vers l'exécutable de Sysmon est incorrect ou inaccessible."
-}
 
-License
-This script is provided under the MIT License. See the LICENSE file for more details.
 
-Contributing
+# Contributing
 Contributions are welcome! Please open an issue or submit a pull request if you have any suggestions or improvements.
 
-Contact
-For any questions or support, please contact your-email@example.com.
